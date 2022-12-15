@@ -1,0 +1,20 @@
+version: "3"
+services:
+  webserver:
+    build:
+      dockerfile: php.Dockerfile
+      context: .
+    restart: always
+    volumes:
+      - "./html/:/var/www/html/"
+    expose:
+      - "80"
+  nginx:
+    image: nginx:latest
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - webserver
+    ports:
+      - "4000:4000"
